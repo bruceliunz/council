@@ -76,7 +76,7 @@ const formReader = (function () {
         return dateString.split('T')[0];
     }
 
-});
+})();
 
 
 window.formReader = formReader;

@@ -91,7 +91,7 @@ const councilWorker = (function () {
         a.click();
         document.body.removeChild(a);
     }
-});
+})();
 
 
 window.councilWorker = councilWorker;
