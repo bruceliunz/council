@@ -68,6 +68,11 @@ const formReader = {
             answersArray.push(answers);
         });
         return answersArray;
+    },
+
+    simplifyDate(dateString) {
+        // Assume the date is in ISO format, e.g., "2024-05-19T00:00:00Z"
+        return dateString.split('T')[0];
     }
 
 };
