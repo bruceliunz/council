@@ -1,5 +1,6 @@
-const formReader = {
-    getInspections(apiToken, formId, manager) {
+const formReader = (function () {
+    async function getInspections(apiToken, formId) {
+        return 'hello';
         GM_xmlhttpRequest({
             method: 'GET',
             url: `https://api.typeform.com/forms/${formId}`,
@@ -10,7 +11,7 @@ const formReader = {
             onload: function (response) {
                 if (response.status === 200) {
                     const formDetails = JSON.parse(response.responseText);
-                    getFormResponses(formDetails, manager);
+                    getFormResponses(formDetails);
                 } else {
                     console.error('Error retrieving form details:', response.statusText);
                 }
@@ -19,9 +20,9 @@ const formReader = {
                 console.error('Request failed:', error);
             }
         });
-    },
+    };
 
-    getFormResponses(formDetails, manager) {
+    function getFormResponses(formDetails, manager) {
         GM_xmlhttpRequest({
             method: 'GET',
             url: `https://api.typeform.com/forms/${formId}/responses`,
@@ -32,8 +33,8 @@ const formReader = {
             onload: function (response) {
                 if (response.status === 200) {
                     const data = JSON.parse(response.responseText);
-                    inspections = extractAnswers(data.items, formDetails);
-                    manager.processInspections(inspections);
+                    manager.inspections = extractAnswers(data.items, formDetails);
+                    //manager.processInspections(inspections);
                 } else {
                     console.error('Error retrieving responses:', response.statusText);
                 }
@@ -42,9 +43,9 @@ const formReader = {
                 console.error('Request failed:', error);
             }
         });
-    },
+    };
 
-    extractAnswers(items, formDetails) {
+    function extractAnswers(items, formDetails) {
         let answersArray = [];
         const questions = {};
 
@@ -68,14 +69,14 @@ const formReader = {
             answersArray.push(answers);
         });
         return answersArray;
-    },
+    };
 
-    simplifyDate(dateString) {
+    function simplifyDate(dateString) {
         // Assume the date is in ISO format, e.g., "2024-05-19T00:00:00Z"
         return dateString.split('T')[0];
     }
 
-};
+});
 
 
 window.formReader = formReader;
