@@ -25,4 +25,4 @@ const message = {
     }
 };
 
-window.message = message;
+window.messageManager = message;
